@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: lightblue;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        input {
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 5px;
+        }
+
+        button {
+            margin-bottom: 10px;
+            padding: 10px;
+        }
+
+        table {
+            background-color: aliceblue;
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            border: 1px solid #000;
+            padding: 8px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Fortune Street Calculator</h1>
+        <p>This tool tells you the max amount you can invest in a shop without having to sell 10 shares.</p>
+        <label for="stockPrice">Current Stock Price:</label>
+        <input type="number" id="stockPrice" placeholder="Enter Stock Price">
+        <label for="readyCash">Ready Cash:</label>
+        <input type="number" id="readyCash" placeholder="Enter Ready Cash" value="0">
+        <button id="calculateBtn">Calculate</button>
+        
+        <table id="results">
+            <thead>
+
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <script>
+        document.getElementById('calculateBtn').addEventListener('click', function () {
+            const stockPrice = parseFloat(document.getElementById('stockPrice').value);
+            const readyCash = parseFloat(document.getElementById('readyCash').value);
+            const tbody = document.querySelector('#results tbody');
+
+
+            if (!isNaN(stockPrice) && !isNaN(readyCash)) {
+                tbody.innerHTML = ''; // Clear previous results
+
+                const row = document.createElement('tr');
+                const stockPriceCell = document.createElement('th');
+                stockPriceCell.textContent = "New Stock Price";
+                const maxInvestmentCell = document.createElement('th');
+                maxInvestmentCell.textContent = "Max Investment";
+                row.appendChild(stockPriceCell);
+                row.appendChild(maxInvestmentCell);
+                tbody.appendChild(row);
+
+                for (let i = 0; i < 10; i++) {
+                    const newStockPrice = stockPrice + i; // Increment stock price
+                    const maxInvestment = newStockPrice*9 + readyCash; // Maintain ready cash
+
+                    const row = document.createElement('tr');
+                    const stockPriceCell = document.createElement('td');
+                    stockPriceCell.textContent = newStockPrice;
+                    const maxInvestmentCell = document.createElement('td');
+                    maxInvestmentCell.textContent = '$'+maxInvestment;
+
+                    row.appendChild(stockPriceCell);
+                    row.appendChild(maxInvestmentCell);
+                    tbody.appendChild(row);
+                }
+            } else {
+                tbody.innerHTML = '<tr><td colspan="2">Please enter valid numbers for stock price and ready cash.</td></tr>';
+            }
+        });
+    </script>
+</body>
+
+</html>
